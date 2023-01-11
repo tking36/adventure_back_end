@@ -1,3 +1,11 @@
+from pathlib import Path
+import dj_database_url # add this
+import os # add this
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # edit this var
+
+
+
 """
 Django settings for adventure_api project.
 
@@ -25,7 +33,7 @@ SECRET_KEY = 'django-insecure-k%kx&lzq3v4hvcarh38)tyrkqdu=(in-4!-dot-qrhnvvz(c#=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'adventure-back-end.herokuapp.com']
 
 
 # Application definition
@@ -52,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CORS_ALLOW_ALL_ORIGINS = True 
 
@@ -88,6 +98,9 @@ DATABASES = {
         'HOST': 'localhost'
     }
 }
+
+db_from_env = dj_database_url.config(conn_max_age=600) # add this
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation
@@ -130,3 +143,5 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') # add this
